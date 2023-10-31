@@ -16,4 +16,5 @@
       "baseUrl": "src",
       "suppressImplicitAnyIndexErrors": true
   },
+  "include": ["src"],
 }
