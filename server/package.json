@@ -4,10 +4,8 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "dev": "nodemon --watch src -e ts --exec ts-node src/app.ts",
     "server": "npx nodemon",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "eslint": "eslint --init"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -30,6 +28,7 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "^20.8.10",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",

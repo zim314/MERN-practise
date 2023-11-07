@@ -16,7 +16,7 @@
       "baseUrl": "src",
       "suppressImplicitAnyIndexErrors": true,
       "paths": {
-        "@assets/*": ["assets/*"],
+        "@/*": ["src/*"]
     },
   },
 }
