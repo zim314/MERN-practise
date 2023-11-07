@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
+    "dev": "nodemon --watch src -e ts --exec ts-node src/app.ts",
     "server": "npx nodemon",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eslint": "eslint --init"
   },
   "keywords": [],
   "author": "",
@@ -26,5 +28,13 @@
     "passport-local": "^1.0.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.10",
+    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/parser": "^6.10.0",
+    "eslint": "^8.53.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "prettier": "^3.0.3"
   }
 }
