@@ -1,11 +1,17 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import authRoute from './routes/auth';
 
 const app = express();
 
 mongoose
     .connect('mongodb://localhost:27017/MERN-practise')
     .then(() => console.log('以連接到 Mongo DB'));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use('/api/user', authRoute);
 
 app.get('/', (req, res) => res.send('歡迎來到首頁'));
 
