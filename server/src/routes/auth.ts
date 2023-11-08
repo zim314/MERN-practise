@@ -8,7 +8,7 @@ router.use((req, res, next) => {
 });
 
 router.get('/test', (req, res) => {
-    res.send('測試測試');
+    res.send('hihi');
 });
 
 export default router;
