@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import authRoute from './routes/auth.js';
+import authRoute from './routes/auth';
 
 const app = express();
 

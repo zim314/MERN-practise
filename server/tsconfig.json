@@ -1,4 +1,9 @@
 {
+  "ts-node": {
+    "esm": true,
+    // https://nodejs.org/dist/latest-v18.x/docs/api/esm.html#customizing-esm-specifier-resolution-algorithm
+    "experimentalSpecifierResolution": "node"
+  },
   "compilerOptions": {
     "target": "ESNext",
     "allowJs": false,
@@ -14,13 +19,9 @@
     "noEmit": true,
     "suppressImplicitAnyIndexErrors": true,
     "noFallthroughCasesInSwitch": true,
-    "baseUrl": ".",
+    "baseUrl": "src",
     "paths": {
-      "@routes/*": ["src/routes/*"],
+      "@routes/*": ["routes/*"],
     }
   },
-  "ts-node": {
-    "esm": true,
-    "experimentalSpecifierResolution": "node"
-  }
 }
