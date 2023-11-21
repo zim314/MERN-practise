@@ -1,7 +1,15 @@
 import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
 
-const userSchema = new Schema({
+export interface UserSchema {
+    username: string;
+    password: string;
+    email: string;
+    role: 'student' | 'instructor';
+    date: Date;
+}
+
+const userSchema: mongoose.Schema<UserSchema> = new Schema({
     username: {
         type: String,
         required: true,
@@ -10,6 +18,7 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
+        minLength: 6,
         required: true,
     },
     email: {

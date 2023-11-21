@@ -1,8 +1,21 @@
 import mongoose, { Schema } from 'mongoose';
 
-const courseSchema = new Schema({
+export interface CourseSchema {
+    id?: string | undefined;
+    title: String;
+    description: string;
+    price: number;
+    instructor?: mongoose.Types.ObjectId | undefined;
+    students: string[];
+}
+
+const courseSchema: mongoose.Schema<CourseSchema> = new Schema({
     id: {
         type: String,
+    },
+    title: {
+        type: String,
+        required: true,
     },
     description: {
         type: String,

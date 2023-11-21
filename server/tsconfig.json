@@ -20,8 +20,5 @@
     "suppressImplicitAnyIndexErrors": true,
     "noFallthroughCasesInSwitch": true,
     "baseUrl": "src",
-    "paths": {
-      "@routes/*": ["routes/*"],
-    }
   },
 }
