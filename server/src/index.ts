@@ -6,7 +6,7 @@ const app = express();
 
 mongoose
     .connect('mongodb://localhost:27017/MERN-practise')
-    .then(() => console.log('以連接到 Mongo DB'));
+    .then(() => console.log('已連接到 Mongo DB'));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

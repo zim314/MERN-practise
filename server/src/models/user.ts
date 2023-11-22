@@ -53,7 +53,6 @@ userSchema.methods.comparePassword = async function (
 };
 
 userSchema.pre('save', async function (next) {
-    console.log('pre');
     if (this.isNew || this.isModified('password')) {
         const hashPassword = await bcrypt.hash(this.password, 12);
         this.password = hashPassword;
