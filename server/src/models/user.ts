@@ -48,8 +48,13 @@ userSchema.methods.comparePassword = async function (
     password: string | Buffer,
     callback: Function
 ) {
-    const result = await bcrypt.compare(password, this.password);
-    callback(null, result);
+    let result;
+    try {
+        result = await bcrypt.compare(password, this.password);
+        return callback(null, result);
+    } catch (error) {
+        return callback(error, result);
+    }
 };
 
 userSchema.pre('save', async function (next) {

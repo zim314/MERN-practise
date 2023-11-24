@@ -5,6 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "server": "nodemon  src/index.ts",
+    "cz": "git cz",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
