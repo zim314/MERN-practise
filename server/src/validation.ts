@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { UserSchema } from './models/user';
+import { User } from './models/user';
 import { CourseSchema } from './models/course';
 
 interface Login {
@@ -7,7 +7,7 @@ interface Login {
     password: string;
 }
 
-export const userValidation = (data: UserSchema) => {
+export const userValidation = (data: User) => {
     const schema = Joi.object({
         username: Joi.string().min(3).max(10).required(),
         password: Joi.string().min(6).required(),
@@ -19,7 +19,7 @@ export const userValidation = (data: UserSchema) => {
 
 export const loginValidation = (data: Login) => {
     const schema = Joi.object({
-        username: Joi.string().min(3).max(10).required(),
+        email: Joi.string().min(3).max(50).required(),
         password: Joi.string().min(6).required(),
     });
     return schema.validate(data);
