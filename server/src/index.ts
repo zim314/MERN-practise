@@ -1,8 +1,12 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { authRoute } from './routes/index';
+import 'dotenv/config';
+import { authRoute, courseRoute } from './routes/index';
+import passport from 'passport';
+import passportConfig from './config/passport';
 
 const app = express();
+passportConfig();
 
 mongoose
     .connect('mongodb://localhost:27017/MERN-practise')
@@ -12,6 +16,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/user', authRoute);
+
+app.use(
+    '/api/courses',
+    passport.authenticate('jwt', { session: false }),
+    courseRoute
+);
 
 app.get('/', (req, res) => res.send('歡迎來到首頁'));
 

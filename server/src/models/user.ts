@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, Types } from 'mongoose';
 import bcrypt from 'bcrypt';
 
 export interface User extends Document {
@@ -10,6 +10,7 @@ export interface User extends Document {
     isStudent: Function;
     isInstructor: Function;
     comparePassword: Function;
+    _id: Types.ObjectId;
 }
 
 const userSchema: mongoose.Schema<User> = new Schema({

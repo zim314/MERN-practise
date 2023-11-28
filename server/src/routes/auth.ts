@@ -1,9 +1,8 @@
 import express from 'express';
-import { user as User } from '../models/index';
+import { User } from '../models/index';
 import { userValidation, loginValidation } from '../validation';
 import jwt from 'jsonwebtoken';
 
-const PASSWORD_SECRET = '今天的點心是珍煮丹';
 const router = express.Router();
 
 router.use((req, res, next) => {
@@ -24,7 +23,10 @@ router.post('/register', async (req, res) => {
         const savedUser = await newUser
             .save()
             .catch((error) => console.log(error));
-        res.send(`註冊成功，註冊內容為：${savedUser}`);
+        res.send({
+            message: '註冊成功',
+            savedUser,
+        });
     } catch (error) {
         res.status(500).send('註冊失敗');
     }
@@ -47,7 +49,10 @@ router.post('/login', async (req, res) => {
                     _id: foundUser._id,
                     email: foundUser.email,
                 };
-                const token = jwt.sign(tokenObject, PASSWORD_SECRET);
+                const token = jwt.sign(
+                    tokenObject,
+                    process.env.PASSPORD_SECRET || '在此輸入 SECRET'
+                );
 
                 return res.send({
                     message: '登入成功',

@@ -1,3 +1,5 @@
-import authRoute from '../routes/auth';
+import authRoute from './auth';
+import courseRoute from './course';
 
 export { authRoute };
+export { courseRoute };
