@@ -10,6 +10,11 @@ router.use((req, res, next) => {
     next();
 });
 
+router.get('/', async (req, res) => {
+    const courseFound = await Course.find().exec();
+    res.send(courseFound);
+});
+
 router.post('/', async (req, res) => {
     const { error } = courseValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
