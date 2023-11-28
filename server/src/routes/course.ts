@@ -22,6 +22,34 @@ router.get('/:_id?', async (req, res) => {
     }
 });
 
+router.post('/:_id', async (req, res) => {
+    const { error } = courseValidation(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const { _id } = req.params;
+    try {
+        const courseFound = await Course.findOne({ _id });
+        if (!courseFound)
+            return res.status(400).send('並未找到課程，請重新輸入');
+
+        if (courseFound.instructor!.equals((req.user as User)._id)) {
+            const updatedCourse = await Course.findOneAndUpdate(
+                { _id },
+                req.body,
+                { new: true, runValidators: true }
+            );
+            res.send({
+                message: '課程更新成功',
+                updatedCourse,
+            });
+        } else {
+            res.status(403).send('只有課程擁有者能更新和修改課程');
+        }
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
 router.post('/', async (req, res) => {
     const { error } = courseValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
