@@ -22,6 +22,24 @@ router.get('/:_id?', async (req, res) => {
     }
 });
 
+router.delete('/:_id', async (req, res) => {
+    const { _id } = req.params;
+    try {
+        const courseFound = await Course.findOne({ _id });
+        if (!courseFound)
+            return res.status(400).send('並未找到課程，請重新輸入');
+
+        if (courseFound.instructor!.equals((req.user as User)._id)) {
+            await Course.deleteOne({ _id }).exec();
+            res.send('課程刪除成功');
+        } else {
+            res.status(403).send('只有課程擁有者才能刪除課程');
+        }
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
 router.post('/:_id', async (req, res) => {
     const { error } = courseValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
@@ -43,7 +61,7 @@ router.post('/:_id', async (req, res) => {
                 updatedCourse,
             });
         } else {
-            res.status(403).send('只有課程擁有者能更新和修改課程');
+            res.status(403).send('只有課程擁有者才能更新和修改課程');
         }
     } catch (error) {
         res.status(500).send(error);
