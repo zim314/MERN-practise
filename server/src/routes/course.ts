@@ -10,9 +10,16 @@ router.use((req, res, next) => {
     next();
 });
 
-router.get('/', async (req, res) => {
-    const courseFound = await Course.find().exec();
-    res.send(courseFound);
+router.get('/:_id?', async (req, res) => {
+    const { _id } = req.params;
+    try {
+        const courseFound = await Course.find(_id ? { _id } : {})
+            .populate('instructor', ['username', 'email'])
+            .exec();
+        res.send(courseFound);
+    } catch (error) {
+        res.status(500).send(error);
+    }
 });
 
 router.post('/', async (req, res) => {
