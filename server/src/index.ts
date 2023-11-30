@@ -4,6 +4,7 @@ import 'dotenv/config';
 import { authRoute, courseRoute } from './routes/index';
 import passport from 'passport';
 import passportConfig from './config/passport';
+import cors from 'cors';
 
 const app = express();
 passportConfig();
@@ -14,6 +15,7 @@ mongoose
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 app.use('/api/user', authRoute);
 
