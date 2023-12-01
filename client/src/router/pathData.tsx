@@ -1,4 +1,5 @@
 import BasicLayout from '../layout/BasicLayout';
+import Home from '../page/Home';
 
 const pathData = [
     {
@@ -6,7 +7,7 @@ const pathData = [
         children: [
             {
                 index: true,
-                element: '',
+                element: <Home />,
             },
         ],
     },
