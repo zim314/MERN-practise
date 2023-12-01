@@ -1,14 +1,11 @@
+import BasicLayout from '../layout/BasicLayout';
+
 const pathData = [
     {
-        path: '',
-        element: '',
+        element: <BasicLayout />,
         children: [
             {
                 index: true,
-                element: '',
-            },
-            {
-                path: '',
                 element: '',
             },
         ],

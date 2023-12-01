@@ -1,7 +1,7 @@
-export default function CatFriends() {
-    return (
-        <>
-            <div>123</div>
-        </>
-    );
-}
+import Router from './router';
+
+const App = () => {
+    return <Router />;
+};
+
+export default App;
