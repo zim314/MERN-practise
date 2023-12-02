@@ -18,7 +18,6 @@ const HomeComponent = () => {
                         </button>
                     </div>
                 </div>
-
                 <div className="row align-items-md-stretch">
                     <div className="col-md-6">
                         <div className="h-100 p-5 text-white bg-dark rounded-3">
@@ -49,7 +48,6 @@ const HomeComponent = () => {
                         </div>
                     </div>
                 </div>
-
                 <footer className="pt-3 mt-4 text-muted border-top">
                     &copy; 2023 Wilson Ren
                 </footer>
