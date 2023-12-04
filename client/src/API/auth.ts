@@ -37,5 +37,3 @@ export const loginAPI = async (emailAndPassword: EmailAndPassword) => {
     const res = await basicFatch(url, params);
     return res;
 };
-
-export const logout = async () => {};

@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
+import logout from '../../utils/delectLocalStorage';
 
 const Navber = () => {
-    const handleLogout = () => {};
-
     return (
         <div>
             <nav>
@@ -45,7 +44,7 @@ const Navber = () => {
 
                                 <li className="nav-item">
                                     <Link
-                                        onClick={handleLogout}
+                                        onClick={() => logout()}
                                         className="nav-link"
                                         to="/"
                                     >
