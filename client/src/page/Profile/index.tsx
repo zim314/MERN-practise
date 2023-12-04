@@ -1,4 +1,8 @@
-const ProfileComponent = ({ currentUser, setCurrentUser }) => {
+const ProfileComponent = () => {
+    const currentUser = localStorage.getItem('user')
+        ? JSON.parse(localStorage.getItem('user') || '{}')
+        : null;
+
     return (
         <div style={{ padding: '3rem' }}>
             {!currentUser && <div>在獲取您的個人資料之前，您必須先登錄。</div>}

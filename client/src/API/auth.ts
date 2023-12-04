@@ -2,7 +2,7 @@ import { basicFatch } from 'API/basic';
 
 const path = 'http://localhost:4545/api/user/';
 
-interface UserInfo extends EmailAndPassword {
+export interface UserInfo extends EmailAndPassword {
     username: string;
     role: string;
 }
