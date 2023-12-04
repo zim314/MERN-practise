@@ -1,14 +1,19 @@
-import { basicFatch, path } from 'API';
+import { basicFatch } from 'API/basic';
 
-interface User {
+const path = 'http://localhost:4545/api/user/';
+
+interface UserInfo extends EmailAndPassword {
     username: string;
-    password: string;
-    email: string;
     role: string;
 }
 
-export const register = async (user: User) => {
-    const url = path + 'user/register';
+interface EmailAndPassword {
+    email: string;
+    password: string;
+}
+
+export const registerAPI = async (user: UserInfo) => {
+    const url = path + 'register';
     const params = {
         method: 'POST',
         body: JSON.stringify(user),
@@ -20,6 +25,18 @@ export const register = async (user: User) => {
     return res;
 };
 
-export const login = async () => {};
+export const loginAPI = async (emailAndPassword: EmailAndPassword) => {
+    const url = path + 'login';
+    const params = {
+        method: 'POST',
+        body: JSON.stringify(emailAndPassword),
+        headers: new Headers({
+            'Content-Type': 'application/json',
+        }),
+    };
+
+    const res = await basicFatch(url, params);
+    return res;
+};
 
 export const logout = async () => {};

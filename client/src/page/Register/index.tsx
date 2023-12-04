@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { register } from '../../API/auth';
+import { registerAPI } from '../../API/auth';
 import { useNavigate } from 'react-router-dom';
 
 const initialForm = {
@@ -29,9 +29,8 @@ const RegisterComponent = () => {
         if (userInfo.email === '') return setMessage('請輸入信箱');
         if (userInfo.password === '') return setMessage('請輸入密碼');
 
-        const res = await register(userInfo);
+        const res = await registerAPI(userInfo);
         const data = await res?.json();
-        setUserInfo({ ...initialForm });
 
         if (res?.status !== 200) return setMessage(data.message);
 

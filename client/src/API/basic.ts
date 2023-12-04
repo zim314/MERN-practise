@@ -1,5 +1,3 @@
-export const path = 'http://localhost:4545/api/';
-
 interface Params {
     method: string;
     headers?: any;

@@ -1,6 +1,7 @@
 import BasicLayout from '../layout/BasicLayout';
 import Home from '../page/Home';
 import Register from '../page/Register';
+import Login from '../page/Login';
 
 const pathData = [
     {
@@ -13,6 +14,10 @@ const pathData = [
             {
                 path: 'register',
                 element: <Register />,
+            },
+            {
+                path: 'login',
+                element: <Login />,
             },
         ],
     },
