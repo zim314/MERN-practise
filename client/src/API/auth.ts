@@ -34,7 +34,6 @@ export const loginAPI = async (emailAndPassword: EmailAndPassword) => {
             'Content-Type': 'application/json',
         }),
     };
-
     const res = await basicFatch(url, params);
     return res;
 };

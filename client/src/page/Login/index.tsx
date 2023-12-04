@@ -32,6 +32,7 @@ const LoginComponent = () => {
         const data = await res?.json();
 
         if (res?.status !== 200) return setMessage(data.message);
+        localStorage.setItem('user', JSON.stringify(data));
         alert('登入成功，現在幫您跳轉到個人資訊頁面！');
         navigate('/profile');
     };
