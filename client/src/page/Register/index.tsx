@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { register } from '../../API/auth';
+import { useNavigate } from 'react-router-dom';
+
+const initialForm = {
+    username: '',
+    password: '',
+    email: '',
+    role: 'student',
+};
 
 const RegisterComponent = () => {
-    const initialForm = {
-        username: '',
-        password: '',
-        email: '',
-        role: 'student',
-    };
-
-    const [userInfo, setUserInfo] = useState(initialForm);
+    const [userInfo, setUserInfo] = useState({ ...initialForm });
     const [message, setMessage] = useState('');
+
+    const navigate = useNavigate();
 
     const changeUserInfo = (
         event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -22,13 +25,18 @@ const RegisterComponent = () => {
     };
 
     const submitUserInfo = async () => {
-        if (userInfo.username === '') return;
-        if (userInfo.password === '') return;
-        if (userInfo.email === '') return;
+        if (userInfo.username === '') return setMessage('請輸入用戶名稱');
+        if (userInfo.email === '') return setMessage('請輸入信箱');
+        if (userInfo.password === '') return setMessage('請輸入密碼');
 
         const res = await register(userInfo);
-        setMessage(res.message);
-        setUserInfo(initialForm);
+        const data = await res?.json();
+        setUserInfo({ ...initialForm });
+
+        if (res?.status !== 200) return setMessage(data.message);
+
+        alert('恭喜註冊成功，現在幫您跳轉到登入頁面！');
+        navigate('/login');
     };
 
     return (
@@ -39,6 +47,7 @@ const RegisterComponent = () => {
                     <label htmlFor="username">用戶名稱:</label>
                     <input
                         type="text"
+                        value={userInfo.username}
                         className="form-control"
                         name="username"
                         onChange={changeUserInfo}
@@ -49,6 +58,7 @@ const RegisterComponent = () => {
                     <label htmlFor="email">電子信箱：</label>
                     <input
                         type="text"
+                        value={userInfo.email}
                         className="form-control"
                         name="email"
                         onChange={changeUserInfo}
@@ -59,6 +69,7 @@ const RegisterComponent = () => {
                     <label htmlFor="password">密碼：</label>
                     <input
                         type="password"
+                        value={userInfo.password}
                         className="form-control"
                         name="password"
                         placeholder="長度至少超過6個英文或數字"
@@ -72,7 +83,7 @@ const RegisterComponent = () => {
                         className="form-control"
                         name="role"
                         onChange={changeUserInfo}
-                        defaultValue="student"
+                        value={userInfo.role}
                     >
                         <option value="student">學生</option>
                         <option value="instructor">導師</option>
