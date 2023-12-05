@@ -16,9 +16,9 @@ router.get('/:_id?', async (req, res) => {
         const courseFound = await Course.find(_id ? { _id } : {})
             .populate('instructor', ['username', 'email'])
             .exec();
-        res.send(courseFound);
+        res.send({ message: '查詢成功', courseFound });
     } catch (error) {
-        res.status(500).send(error);
+        res.status(500).send(JSON.stringify({ mssage: error }));
     }
 });
 
@@ -27,28 +27,35 @@ router.delete('/:_id', async (req, res) => {
     try {
         const courseFound = await Course.findOne({ _id });
         if (!courseFound)
-            return res.status(400).send('並未找到課程，請重新輸入');
+            return res
+                .status(400)
+                .send({ message: '並未找到課程，請重新輸入' });
 
         if (courseFound.instructor!.equals((req.user as User)._id)) {
             await Course.deleteOne({ _id }).exec();
-            res.send('課程刪除成功');
+            res.send({ message: '課程刪除成功' });
         } else {
-            res.status(403).send('只有課程擁有者才能刪除課程');
+            res.status(403).send({ message: '只有課程擁有者才能刪除課程' });
         }
     } catch (error) {
-        res.status(500).send(error);
+        res.status(500).send(JSON.stringify({ message: error }));
     }
 });
 
 router.post('/:_id', async (req, res) => {
     const { error } = courseValidation(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+    if (error)
+        return res
+            .status(400)
+            .send(JSON.stringify({ message: error.details[0].message }));
 
     const { _id } = req.params;
     try {
         const courseFound = await Course.findOne({ _id });
         if (!courseFound)
-            return res.status(400).send('並未找到課程，請重新輸入');
+            return res
+                .status(400)
+                .send({ message: '並未找到課程，請重新輸入' });
 
         if (courseFound.instructor!.equals((req.user as User)._id)) {
             const updatedCourse = await Course.findOneAndUpdate(
@@ -61,19 +68,38 @@ router.post('/:_id', async (req, res) => {
                 updatedCourse,
             });
         } else {
-            res.status(403).send('只有課程擁有者才能更新和修改課程');
+            res.status(403).send({
+                message: '只有課程擁有者才能更新和修改課程',
+            });
         }
     } catch (error) {
-        res.status(500).send(error);
+        res.status(500).send(JSON.stringify({ message: error }));
+    }
+});
+
+router.post('/instructor/:_instructor_id', async (req, res) => {
+    const { _instructor_id } = req.params;
+    try {
+        const coursesFound = await Course.find({
+            instructor: _instructor_id,
+        })
+            .populate('instructor', ['username', 'email'])
+            .exec();
+        res.send({ message: '查詢成功', coursesFound });
+    } catch (error) {
+        res.status(500).send(JSON.stringify({ message: error }));
     }
 });
 
 router.post('/', async (req, res) => {
     const { error } = courseValidation(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+    if (error)
+        return res
+            .status(400)
+            .send(JSON.stringify({ message: error.details[0].message }));
 
     if ((req.user as User).isStudent())
-        return res.status(400).send('請登入講師帳號後再註冊課程');
+        return res.status(400).send({ message: '請登入講師帳號後再註冊課程' });
 
     const { title, description, price } = req.body;
     try {
@@ -89,7 +115,7 @@ router.post('/', async (req, res) => {
             savedCoure,
         });
     } catch {
-        res.status(500).send('課程註冊失敗');
+        res.status(500).send({ message: '課程註冊失敗' });
     }
 });
 
