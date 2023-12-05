@@ -1,6 +1,8 @@
 import { loginAPI } from '../../API/auth';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { UserInfoContext } from '../../component/Provider';
 
 const initialForm = {
     email: '',
@@ -14,6 +16,7 @@ const LoginComponent = () => {
     const [message, setMessage] = useState('');
 
     const navigate = useNavigate();
+    const user = useContext(UserInfoContext);
 
     const changeEmailOrPassword = (
         event: React.ChangeEvent<HTMLInputElement>
@@ -33,6 +36,7 @@ const LoginComponent = () => {
 
         if (res?.status !== 200) return setMessage(data.message);
         localStorage.setItem('user', JSON.stringify(data));
+        user?.setUserInfo(JSON.stringify(data));
         alert('登入成功，現在幫您跳轉到個人資訊頁面！');
         navigate('/profile');
     };

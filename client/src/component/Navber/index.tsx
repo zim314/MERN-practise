@@ -1,7 +1,15 @@
 import { Link } from 'react-router-dom';
-import logout from '../../utils/delectLocalStorage';
+import { useContext } from 'react';
+import { UserInfoContext } from '../Provider';
 
 const Navber = () => {
+    const user = useContext(UserInfoContext);
+
+    const logout = () => {
+        localStorage.removeItem('user');
+        user?.setUserInfo(null);
+    };
+
     return (
         <div>
             <nav>
@@ -30,33 +38,48 @@ const Navber = () => {
                                     </Link>
                                 </li>
 
-                                <li className="nav-item">
-                                    <Link className="nav-link" to="/register">
-                                        註冊會員
-                                    </Link>
-                                </li>
+                                {user?.userInfo ? (
+                                    <>
+                                        <li className="nav-item">
+                                            <Link
+                                                onClick={logout}
+                                                className="nav-link"
+                                                to="/"
+                                            >
+                                                登出
+                                            </Link>
+                                        </li>
 
-                                <li className="nav-item">
-                                    <Link className="nav-link" to="/login">
-                                        會員登入
-                                    </Link>
-                                </li>
+                                        <li className="nav-item">
+                                            <Link
+                                                className="nav-link"
+                                                to="/profile"
+                                            >
+                                                個人頁面
+                                            </Link>
+                                        </li>
+                                    </>
+                                ) : (
+                                    <>
+                                        <li className="nav-item">
+                                            <Link
+                                                className="nav-link"
+                                                to="/register"
+                                            >
+                                                註冊會員
+                                            </Link>
+                                        </li>
 
-                                <li className="nav-item">
-                                    <Link
-                                        onClick={() => logout()}
-                                        className="nav-link"
-                                        to="/"
-                                    >
-                                        登出
-                                    </Link>
-                                </li>
-
-                                <li className="nav-item">
-                                    <Link className="nav-link" to="/profile">
-                                        個人頁面
-                                    </Link>
-                                </li>
+                                        <li className="nav-item">
+                                            <Link
+                                                className="nav-link"
+                                                to="/login"
+                                            >
+                                                會員登入
+                                            </Link>
+                                        </li>
+                                    </>
+                                )}
 
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/course">

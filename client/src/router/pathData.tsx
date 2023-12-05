@@ -3,7 +3,6 @@ import Home from '../page/Home';
 import Register from '../page/Register';
 import Login from '../page/Login';
 import Profile from '../page/Profile';
-import { useState } from 'react';
 
 const pathData = [
     {
