@@ -91,6 +91,20 @@ router.get('/instructor/:_instructor_id', async (req, res) => {
     }
 });
 
+router.get('/student/:_student_id', async (req, res) => {
+    const { _student_id } = req.params;
+    try {
+        const coursesFound = await Course.find({
+            student: _student_id,
+        })
+            .populate('instructor', ['username', 'email'])
+            .exec();
+        res.send({ message: '查詢成功', coursesFound });
+    } catch (error) {
+        res.status(500).send(JSON.stringify({ message: error }));
+    }
+});
+
 router.post('/', async (req, res) => {
     const { error } = courseValidation(req.body);
     if (error)
