@@ -3,6 +3,7 @@ import Home from '../page/Home';
 import Register from '../page/Register';
 import Login from '../page/Login';
 import Profile from '../page/Profile';
+import Course from '../page/Coure';
 
 const pathData = [
     {
@@ -23,6 +24,10 @@ const pathData = [
             {
                 path: 'profile',
                 element: <Profile />,
+            },
+            {
+                path: 'course',
+                element: <Course />,
             },
         ],
     },

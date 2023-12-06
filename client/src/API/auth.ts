@@ -1,8 +1,8 @@
-import { basicFatch } from 'API/basic';
+import basicFatch from 'API/basic';
 
 const path = 'http://localhost:4545/api/user/';
 
-interface UserInfo extends EmailAndPassword {
+export interface UserInfo extends EmailAndPassword {
     username: string;
     role: string;
 }
@@ -17,9 +17,6 @@ export const registerAPI = async (user: UserInfo) => {
     const params = {
         method: 'POST',
         body: JSON.stringify(user),
-        headers: new Headers({
-            'Content-Type': 'application/json',
-        }),
     };
     const res = await basicFatch(url, params);
     return res;
@@ -30,9 +27,6 @@ export const loginAPI = async (emailAndPassword: EmailAndPassword) => {
     const params = {
         method: 'POST',
         body: JSON.stringify(emailAndPassword),
-        headers: new Headers({
-            'Content-Type': 'application/json',
-        }),
     };
     const res = await basicFatch(url, params);
     return res;

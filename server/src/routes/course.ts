@@ -22,26 +22,6 @@ router.get('/:_id?', async (req, res) => {
     }
 });
 
-router.delete('/:_id', async (req, res) => {
-    const { _id } = req.params;
-    try {
-        const courseFound = await Course.findOne({ _id });
-        if (!courseFound)
-            return res
-                .status(400)
-                .send({ message: '並未找到課程，請重新輸入' });
-
-        if (courseFound.instructor!.equals((req.user as User)._id)) {
-            await Course.deleteOne({ _id }).exec();
-            res.send({ message: '課程刪除成功' });
-        } else {
-            res.status(403).send({ message: '只有課程擁有者才能刪除課程' });
-        }
-    } catch (error) {
-        res.status(500).send(JSON.stringify({ message: error }));
-    }
-});
-
 router.post('/:_id', async (req, res) => {
     const { error } = courseValidation(req.body);
     if (error)
@@ -77,7 +57,27 @@ router.post('/:_id', async (req, res) => {
     }
 });
 
-router.post('/instructor/:_instructor_id', async (req, res) => {
+router.delete('/:_id', async (req, res) => {
+    const { _id } = req.params;
+    try {
+        const courseFound = await Course.findOne({ _id });
+        if (!courseFound)
+            return res
+                .status(400)
+                .send({ message: '並未找到課程，請重新輸入' });
+
+        if (courseFound.instructor!.equals((req.user as User)._id)) {
+            await Course.deleteOne({ _id }).exec();
+            res.send({ message: '課程刪除成功' });
+        } else {
+            res.status(403).send({ message: '只有課程擁有者才能刪除課程' });
+        }
+    } catch (error) {
+        res.status(500).send(JSON.stringify({ message: error }));
+    }
+});
+
+router.get('/instructor/:_instructor_id', async (req, res) => {
     const { _instructor_id } = req.params;
     try {
         const coursesFound = await Course.find({

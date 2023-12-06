@@ -77,16 +77,14 @@ const Navber = () => {
                                                 會員登入
                                             </Link>
                                         </li>
-
-                                        <li className="nav-item">
-                                            <Link
-                                                className="nav-link"
-                                                to="/course"
-                                            >
-                                                課程頁面
-                                            </Link>
-                                        </li>
                                     </>
+                                )}
+                                {user?.userInfo && (
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/course">
+                                            課程頁面
+                                        </Link>
+                                    </li>
                                 )}
                                 {user?.userInfo?.user.role === 'instructor' && (
                                     <li className="nav-item">

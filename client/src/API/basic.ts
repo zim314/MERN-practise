@@ -1,15 +1,22 @@
 interface Params {
-    method: string;
-    headers?: any;
+    method?: string;
     body?: any;
     token?: string;
 }
 
-export const basicFatch = async (url: string, params?: Params) => {
+const basicFatch = async (url: string, params?: Params) => {
     try {
-        const res = await (params ? fetch(url, params) : fetch(url));
+        const res = await fetch(url, {
+            headers: new Headers({
+                'Content-Type': 'application/json',
+            }),
+            method: 'GET',
+            ...params,
+        });
         return res;
     } catch (error) {
         console.log('API ERROR', error);
     }
 };
+
+export default basicFatch;
