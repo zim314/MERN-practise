@@ -4,6 +4,7 @@ import Register from '../page/Register';
 import Login from '../page/Login';
 import Profile from '../page/Profile';
 import Course from '../page/Coure';
+import PostCourse from '../page/PostCourse';
 
 const pathData = [
     {
@@ -28,6 +29,10 @@ const pathData = [
             {
                 path: 'course',
                 element: <Course />,
+            },
+            {
+                path: 'postCourse',
+                element: <PostCourse />,
             },
         ],
     },

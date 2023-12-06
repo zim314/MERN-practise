@@ -3,8 +3,24 @@ import { UserInfoContext } from '../../component/Provider';
 import { useNavigate } from 'react-router-dom';
 import { getInstructorOrStudentACourseAPI } from '../../API/course';
 
+interface Course {
+    title: string;
+    description: string;
+    price: number;
+    instructor: instructorInfo;
+    students: string[];
+    __v: number;
+    _id: string;
+}
+
+interface instructorInfo {
+    username: string;
+    email: string;
+    _id: string;
+}
+
 const index = () => {
-    const [courseList, setCourseList] = useState();
+    const [courseList, setCourseList] = useState<Course[]>();
 
     const user = useContext(UserInfoContext);
     const navigate = useNavigate();
@@ -47,7 +63,7 @@ const index = () => {
             )}
             {courseList && (
                 <div style={{ display: 'fles', flexWrap: 'wrap' }}>
-                    {courseList.map((course: any) => {
+                    {courseList.map((course: Course) => (
                         <div
                             className="card"
                             style={{ width: '18rem', margin: '1rem' }}
@@ -63,14 +79,14 @@ const index = () => {
                                     {course.description}
                                 </p>
                                 <p style={{ margin: '0.5rem 0rem' }}>
-                                    學生人數：{course.student.length}
+                                    學生人數：{course.students.length}
                                 </p>
                                 <p style={{ margin: '0.5rem 0rem' }}>
                                     課程價格：{course.price}
                                 </p>
                             </div>
-                        </div>;
-                    })}
+                        </div>
+                    ))}
                 </div>
             )}
         </div>
