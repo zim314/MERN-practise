@@ -23,7 +23,7 @@ const LoginComponent = () => {
     ) => {
         setEmailAndPassword((pre) => ({
             ...pre,
-            [event.target.name]: event.target.value,
+            [event.target.id]: event.target.value,
         }));
     };
 
@@ -50,7 +50,7 @@ const LoginComponent = () => {
                     <input
                         type="text"
                         className="form-control"
-                        name="email"
+                        id="email"
                         value={emailAndPassword.email}
                         onChange={changeEmailOrPassword}
                     />
@@ -61,7 +61,7 @@ const LoginComponent = () => {
                     <input
                         type="password"
                         className="form-control"
-                        name="password"
+                        id="password"
                         value={emailAndPassword.password}
                         onChange={changeEmailOrPassword}
                     />

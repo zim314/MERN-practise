@@ -20,7 +20,7 @@ const RegisterComponent = () => {
     ) => {
         setUserInfo((pre) => ({
             ...pre,
-            [event.target.name]: event.target.value,
+            [event.target.id]: event.target.value,
         }));
     };
 
@@ -48,7 +48,7 @@ const RegisterComponent = () => {
                         type="text"
                         value={userInfo.username}
                         className="form-control"
-                        name="username"
+                        id="username"
                         onChange={changeUserInfo}
                     />
                 </div>
@@ -59,7 +59,7 @@ const RegisterComponent = () => {
                         type="text"
                         value={userInfo.email}
                         className="form-control"
-                        name="email"
+                        id="email"
                         onChange={changeUserInfo}
                     />
                 </div>
@@ -70,7 +70,7 @@ const RegisterComponent = () => {
                         type="password"
                         value={userInfo.password}
                         className="form-control"
-                        name="password"
+                        id="password"
                         placeholder="長度至少超過6個英文或數字"
                         onChange={changeUserInfo}
                     />
@@ -80,7 +80,7 @@ const RegisterComponent = () => {
                     <label htmlFor="password">身份：</label>
                     <select
                         className="form-control"
-                        name="role"
+                        id="role"
                         onChange={changeUserInfo}
                         value={userInfo.role}
                     >
