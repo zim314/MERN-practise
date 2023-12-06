@@ -25,14 +25,19 @@ export const createCourseAPI = async (courseInfo: CourseInfo) => {
     return res;
 };
 
-export const searchInstructorACourseAPI = async (instructorID: string) => {
-    const url = path + `instructor/${instructorID}`;
+export const getInstructorOrStudentACourseAPI = async (
+    identities: string,
+    ID: string
+) => {
+    const url = path + `${identities}/${ID}`;
     const token = localStorage.getItem('user') ? getCurrentUser().token : null;
     const params = {
-        method: 'POSE',
-        token,
+        method: 'GET',
+        headers: new Headers({
+            'Content-Type': 'application/json',
+            Authorization: token,
+        }),
     };
-
     const res = await basicFatch(url, params);
     return res;
 };

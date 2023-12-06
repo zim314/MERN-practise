@@ -1,10 +1,10 @@
 import { useContext, useState, useEffect } from 'react';
 import { UserInfoContext } from '../../component/Provider';
 import { useNavigate } from 'react-router-dom';
-import { createCourseAPI, searchInstructorACourseAPI } from '../../API/course';
+import { getInstructorOrStudentACourseAPI } from '../../API/course';
 
 const index = () => {
-    const [course, setCourse] = useState();
+    const [courseList, setCourseList] = useState();
 
     const user = useContext(UserInfoContext);
     const navigate = useNavigate();
@@ -12,15 +12,13 @@ const index = () => {
     useEffect(() => {
         (async () => {
             if (!user) return;
-
-            const userInfo = user?.userInfo.user;
-            if (userInfo.role === 'instructor') {
-                const res = await searchInstructorACourseAPI(userInfo._id);
-
-                const xxx = await res?.json();
-
-                console.log('res', xxx);
-            }
+            const info = user?.userInfo.user;
+            const res = await getInstructorOrStudentACourseAPI(
+                info.role,
+                info._id
+            );
+            const courseData = await res?.json();
+            setCourseList(courseData.coursesFound);
         })();
     }, []);
 
@@ -45,6 +43,34 @@ const index = () => {
             {user?.userInfo?.user.role === 'student' && (
                 <div>
                     <h1>歡迎到學生課程頁面</h1>
+                </div>
+            )}
+            {courseList && (
+                <div style={{ display: 'fles', flexWrap: 'wrap' }}>
+                    {courseList.map((course: any) => {
+                        <div
+                            className="card"
+                            style={{ width: '18rem', margin: '1rem' }}
+                        >
+                            <div className="card-body">
+                                <h5 className="card-title">
+                                    課程名稱：{course.title}
+                                </h5>
+                                <p
+                                    className="card-text"
+                                    style={{ margin: '0.5rem 0rem' }}
+                                >
+                                    {course.description}
+                                </p>
+                                <p style={{ margin: '0.5rem 0rem' }}>
+                                    學生人數：{course.student.length}
+                                </p>
+                                <p style={{ margin: '0.5rem 0rem' }}>
+                                    課程價格：{course.price}
+                                </p>
+                            </div>
+                        </div>;
+                    })}
                 </div>
             )}
         </div>
