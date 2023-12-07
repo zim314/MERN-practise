@@ -9,9 +9,9 @@ const initialForm = {
     price: '',
 };
 
-const PostCourseComponent = () => {
-    let [course, setCourse] = useState(initialForm);
-    let [message, setMessage] = useState('');
+const PostCourse = () => {
+    const [course, setCourse] = useState(initialForm);
+    const [message, setMessage] = useState('');
 
     const user = getCurrentUser().user;
     const navigate = useNavigate();
@@ -97,4 +97,4 @@ const PostCourseComponent = () => {
     );
 };
 
-export default PostCourseComponent;
+export default PostCourse;

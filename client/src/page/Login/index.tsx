@@ -9,7 +9,7 @@ const initialForm = {
     password: '',
 };
 
-const LoginComponent = () => {
+const Login = () => {
     const [emailAndPassword, setEmailAndPassword] = useState({
         ...initialForm,
     });
@@ -80,4 +80,4 @@ const LoginComponent = () => {
     );
 };
 
-export default LoginComponent;
+export default Login;

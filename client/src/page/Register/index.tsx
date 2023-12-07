@@ -9,7 +9,7 @@ const initialForm = {
     role: 'student',
 };
 
-const RegisterComponent = () => {
+const Register = () => {
     const [userInfo, setUserInfo] = useState({ ...initialForm });
     const [message, setMessage] = useState('');
 
@@ -97,4 +97,4 @@ const RegisterComponent = () => {
     );
 };
 
-export default RegisterComponent;
+export default Register;

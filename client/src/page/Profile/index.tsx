@@ -1,4 +1,4 @@
-const ProfileComponent = () => {
+const Profile = () => {
     const currentUser = localStorage.getItem('user')
         ? JSON.parse(localStorage.getItem('user') || '{}')
         : null;
@@ -37,7 +37,11 @@ const ProfileComponent = () => {
                             <tr>
                                 <td>
                                     <strong>
-                                        身份: {currentUser.user.role}
+                                        身份:{' '}
+                                        {currentUser.user.role ===
+                                            'instructor' && '導師'}
+                                        {currentUser.user.role === 'studment' &&
+                                            '學生'}
                                     </strong>
                                 </td>
                             </tr>
@@ -49,4 +53,4 @@ const ProfileComponent = () => {
     );
 };
 
-export default ProfileComponent;
+export default Profile;

@@ -65,6 +65,7 @@ const index = () => {
                 <div style={{ display: 'fles', flexWrap: 'wrap' }}>
                     {courseList.map((course: Course) => (
                         <div
+                            key={course.title}
                             className="card"
                             style={{ width: '18rem', margin: '1rem' }}
                         >

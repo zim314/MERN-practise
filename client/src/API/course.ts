@@ -23,6 +23,38 @@ export const createCourseAPI = async (courseInfo: CourseInfo) => {
     return res;
 };
 
+export const useIDSreachCourseAPI = async (courseID?: string) => {
+    const token = localStorage.getItem('user') ? getCurrentUser().token : null;
+    const params = {
+        headers: new Headers({
+            'Content-Type': 'application/json',
+            Authorization: token,
+        }),
+    };
+    const res = await basicFatch(
+        courseID ? path + `/${courseID}` : path,
+        params
+    );
+    return res;
+};
+
+export const useKeywordSreachCourseAPI = async (keyword: string) => {
+    const token = localStorage.getItem('user') ? getCurrentUser().token : null;
+    const params = {
+        method: 'POST',
+        body: JSON.stringify({ keyword }),
+        headers: new Headers({
+            'Content-Type': 'application/json',
+            Authorization: token,
+        }),
+    };
+
+    console.log('@', params);
+
+    const res = await basicFatch(path, params);
+    return res;
+};
+
 export const getInstructorOrStudentACourseAPI = async (
     identities: string,
     ID: string
@@ -30,7 +62,6 @@ export const getInstructorOrStudentACourseAPI = async (
     const url = path + `/${identities}/${ID}`;
     const token = localStorage.getItem('user') ? getCurrentUser().token : null;
     const params = {
-        method: 'GET',
         headers: new Headers({
             'Content-Type': 'application/json',
             Authorization: token,

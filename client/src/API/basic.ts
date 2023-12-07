@@ -1,5 +1,6 @@
 interface Params {
     method?: string;
+    headers?: HeadersInit;
     body?: any;
     token?: string;
 }

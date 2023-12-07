@@ -5,6 +5,7 @@ import Login from '../page/Login';
 import Profile from '../page/Profile';
 import Course from '../page/Coure';
 import PostCourse from '../page/PostCourse';
+import Enroll from '../page/Enroll';
 
 const pathData = [
     {
@@ -33,6 +34,10 @@ const pathData = [
             {
                 path: 'postCourse',
                 element: <PostCourse />,
+            },
+            {
+                path: 'enroll',
+                element: <Enroll />,
             },
         ],
     },
