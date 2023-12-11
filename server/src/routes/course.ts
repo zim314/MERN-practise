@@ -1,4 +1,5 @@
 import express from 'express';
+import { courseRoute } from 'routes';
 import { Course } from '../models/index';
 import { User } from '../models/user';
 import { courseValidation } from '../validation';
@@ -43,7 +44,7 @@ router.get('/student/:_student_id', async (req, res) => {
     const { _student_id } = req.params;
     try {
         const coursesFound = await Course.find({
-            student: _student_id,
+            students: _student_id,
         })
             .populate('instructor', ['username', 'email'])
             .exec();
@@ -68,7 +69,36 @@ router.post('/', async (req, res) => {
     }
 });
 
-//更新課程？
+//導師開設課程
+router.post('/', async (req, res) => {
+    const { error } = courseValidation(req.body);
+    if (error)
+        return res
+            .status(400)
+            .send(JSON.stringify({ message: error.details[0].message }));
+
+    if ((req.user as User).isStudent())
+        return res.status(400).send({ message: '請登入講師帳號後再註冊課程' });
+
+    const { title, description, price } = req.body;
+    try {
+        const newCourse = new Course({
+            title,
+            description,
+            price,
+            instructor: (req.user as User)._id,
+        });
+        const savedCoure = await newCourse.save();
+        res.send({
+            message: '課程註冊成功',
+            savedCoure,
+        });
+    } catch {
+        res.status(500).send({ message: '課程註冊失敗' });
+    }
+});
+
+//導師更新課程？
 router.put('/:_id', async (req, res) => {
     const { error } = courseValidation(req.body);
     if (error)
@@ -104,32 +134,17 @@ router.put('/:_id', async (req, res) => {
     }
 });
 
-//註冊課程
-router.post('/', async (req, res) => {
-    const { error } = courseValidation(req.body);
-    if (error)
-        return res
-            .status(400)
-            .send(JSON.stringify({ message: error.details[0].message }));
-
-    if ((req.user as User).isStudent())
-        return res.status(400).send({ message: '請登入講師帳號後再註冊課程' });
-
-    const { title, description, price } = req.body;
+//學生註冊課程
+router.get('/enroll/:_course_id', async (req, res) => {
+    const { _course_id } = req.params;
     try {
-        const newCourse = new Course({
-            title,
-            description,
-            price,
-            instructor: (req.user as User)._id,
-        });
-        const savedCoure = await newCourse.save();
-        res.send({
-            message: '課程註冊成功',
-            savedCoure,
-        });
-    } catch {
-        res.status(500).send({ message: '課程註冊失敗' });
+        const course = await Course.findOne({ _id: _course_id });
+        if (!course) return res.status(400).send({ message: '並未找到課程' });
+        course?.students.push((req.user as User)._id.toString());
+        await course?.save();
+        res.send({ message: '註冊成功！' });
+    } catch (error) {
+        res.status(500).send({ message: '註冊失敗！' });
     }
 });
 
