@@ -48,7 +48,8 @@ const Enroll = () => {
         const res = await enrollCourseAPI(event.target.id);
         const data = await res?.json();
         if (res?.status !== 200) return setMessage(data.message);
-        setMessage(data.message);
+        alert('註冊成功');
+        searchCourse('');
     };
 
     useEffect(() => {
