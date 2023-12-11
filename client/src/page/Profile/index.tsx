@@ -40,7 +40,7 @@ const Profile = () => {
                                         身份:{' '}
                                         {currentUser.user.role ===
                                             'instructor' && '導師'}
-                                        {currentUser.user.role === 'studment' &&
+                                        {currentUser.user.role === 'student' &&
                                             '學生'}
                                     </strong>
                                 </td>

@@ -2,6 +2,10 @@ import basicFatch from './basic';
 import getCurrentUser from 'utils/getCurrentUser';
 
 const path = 'http://localhost:4545/api/courses';
+const headers = new Headers({
+    'Content-Type': 'application/json',
+    Authorization: getCurrentUser() ? getCurrentUser().token : null,
+});
 
 interface CourseInfo {
     title: string;
@@ -10,27 +14,23 @@ interface CourseInfo {
 }
 
 export const createCourseAPI = async (courseInfo: CourseInfo) => {
-    const token = localStorage.getItem('user') ? getCurrentUser().token : null;
     const params = {
         method: 'POST',
         body: JSON.stringify(courseInfo),
-        headers: new Headers({
-            'Content-Type': 'application/json',
-            Authorization: token,
-        }),
+        headers,
     };
     const res = await basicFatch(path, params);
     return res;
 };
 
+export const enrollCourseAPI = async (courseID: string) => {
+    const params = { headers };
+    const res = await basicFatch(path + `/enroll/${courseID}`, params);
+    return res;
+};
+
 export const useIDSreachCourseAPI = async (courseID?: string) => {
-    const token = localStorage.getItem('user') ? getCurrentUser().token : null;
-    const params = {
-        headers: new Headers({
-            'Content-Type': 'application/json',
-            Authorization: token,
-        }),
-    };
+    const params = { headers };
     const res = await basicFatch(
         courseID ? path + `/${courseID}` : path,
         params
@@ -39,18 +39,11 @@ export const useIDSreachCourseAPI = async (courseID?: string) => {
 };
 
 export const useKeywordSreachCourseAPI = async (keyword: string) => {
-    const token = localStorage.getItem('user') ? getCurrentUser().token : null;
     const params = {
         method: 'POST',
         body: JSON.stringify({ keyword }),
-        headers: new Headers({
-            'Content-Type': 'application/json',
-            Authorization: token,
-        }),
+        headers,
     };
-
-    console.log('@', params);
-
     const res = await basicFatch(path, params);
     return res;
 };
@@ -60,13 +53,7 @@ export const getInstructorOrStudentACourseAPI = async (
     ID: string
 ) => {
     const url = path + `/${identities}/${ID}`;
-    const token = localStorage.getItem('user') ? getCurrentUser().token : null;
-    const params = {
-        headers: new Headers({
-            'Content-Type': 'application/json',
-            Authorization: token,
-        }),
-    };
+    const params = { headers };
     const res = await basicFatch(url, params);
     return res;
 };

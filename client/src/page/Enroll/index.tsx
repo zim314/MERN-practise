@@ -1,10 +1,7 @@
-import React, { useEffect, useState, useContext, useRef } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { UserInfoContext } from '../../component/Provider';
 import { useNavigate } from 'react-router-dom';
-import {
-    useIDSreachCourseAPI,
-    useKeywordSreachCourseAPI,
-} from '../../API/course';
+import { useKeywordSreachCourseAPI, enrollCourseAPI } from '../../API/course';
 
 interface Course {
     title: string;
@@ -22,7 +19,6 @@ const Enroll = () => {
     const [message, setMessage] = useState('');
 
     const navigate = useNavigate();
-    const totalCourseRef = useRef(null);
     const user = useContext(UserInfoContext);
 
     const handleChangeSearchBar = (
@@ -31,31 +27,32 @@ const Enroll = () => {
         setSearchKeyword(event.target.value);
     };
 
-    const searchCourse = async () => {
-        if (!searchKeyword) return;
+    const searchCourse = async (searchKeyword: string) => {
+        setMessage('');
         const res = await useKeywordSreachCourseAPI(searchKeyword);
         const coursesData = await res?.json();
-        if (coursesData.courseFound.length === 0)
-            return setMessage('沒有查到課程！');
+        if (coursesData.courseFound.length === 0) {
+            setMessage('沒有查到課程！');
+            setCoursesList(null);
+            return;
+        }
         setCoursesList(coursesData.courseFound);
     };
 
     const clearSearch = () => {
         setSearchKeyword('');
-        setCoursesList(totalCourseRef.current);
+        searchCourse('');
     };
 
-    const enrollCourse = () => {
-        console.log('註冊課程');
+    const enrollCourse = async (event: any) => {
+        const res = await enrollCourseAPI(event.target.id);
+        const data = await res?.json();
+        if (res?.status !== 200) return setMessage(data.message);
+        setMessage(data.message);
     };
 
     useEffect(() => {
-        (async () => {
-            const res = await useIDSreachCourseAPI();
-            const coursesData = await res?.json();
-            totalCourseRef.current = coursesData.courseFound;
-            setCoursesList(coursesData.courseFound);
-        })();
+        searchCourse('');
     }, []);
 
     return (
@@ -84,7 +81,14 @@ const Enroll = () => {
                         value={searchKeyword}
                         onChange={handleChangeSearchBar}
                     />
-                    <button onClick={searchCourse} className="btn btn-primary">
+                    <button
+                        onClick={() =>
+                            searchKeyword
+                                ? searchCourse(searchKeyword)
+                                : searchCourse('')
+                        }
+                        className="btn btn-primary"
+                    >
                         搜尋
                     </button>
                     <button onClick={clearSearch} className="btn btn-primary">
