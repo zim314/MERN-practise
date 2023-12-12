@@ -1,15 +1,9 @@
 import express from 'express';
-import { courseRoute } from 'routes';
 import { Course } from '../models/index';
 import { User } from '../models/user';
 import { courseValidation } from '../validation';
 
 const router = express.Router();
-
-router.use((req, res, next) => {
-    console.log('進入course router');
-    next();
-});
 
 //查詢課程
 router.get('/:_id?', async (req, res) => {
@@ -70,7 +64,7 @@ router.post('/', async (req, res) => {
 });
 
 //導師開設課程
-router.post('/', async (req, res) => {
+router.post('/create', async (req, res) => {
     const { error } = courseValidation(req.body);
     if (error)
         return res
