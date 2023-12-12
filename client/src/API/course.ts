@@ -14,12 +14,13 @@ interface CourseInfo {
 }
 
 export const createCourseAPI = async (courseInfo: CourseInfo) => {
+    const url = path + '/create';
     const params = {
         method: 'POST',
         body: JSON.stringify(courseInfo),
         headers,
     };
-    const res = await basicFatch(path, params);
+    const res = await basicFatch(url, params);
     return res;
 };
 
@@ -30,11 +31,9 @@ export const enrollCourseAPI = async (courseID: string) => {
 };
 
 export const useIDSreachCourseAPI = async (courseID?: string) => {
+    const url = courseID ? path + `/${courseID}` : path;
     const params = { headers };
-    const res = await basicFatch(
-        courseID ? path + `/${courseID}` : path,
-        params
-    );
+    const res = await basicFatch(url, params);
     return res;
 };
 

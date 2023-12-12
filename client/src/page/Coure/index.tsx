@@ -21,6 +21,7 @@ interface instructorInfo {
 
 const index = () => {
     const [courseList, setCourseList] = useState<Course[]>();
+    const [message, setMessage] = useState('');
 
     const user = useContext(UserInfoContext);
     const navigate = useNavigate();
@@ -34,6 +35,8 @@ const index = () => {
                 info._id
             );
             const courseData = await res?.json();
+            if (courseData.coursesFound.length === 0)
+                return setMessage('目前沒有課程！');
             setCourseList(courseData.coursesFound);
         })();
     }, []);
@@ -61,6 +64,7 @@ const index = () => {
                     <h1>歡迎到學生課程頁面</h1>
                 </div>
             )}
+            {message && <div className="alert alert-danger">{message}</div>}
             {courseList && (
                 <div style={{ display: 'fles', flexWrap: 'wrap' }}>
                     {courseList.map((course: Course) => (
